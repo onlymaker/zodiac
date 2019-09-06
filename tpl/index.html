@@ -37,7 +37,7 @@
             .then(function (json) {
                 let html = "";
                 json.forEach(function (item) {
-                    html += "<a href='" + item.url + "'><img alt='gallery' class='img-thumbnail' src='" + item.image + "'/></a>";
+                    html += "<a href='" + buildUrl(item.url) + "'><img alt='gallery' class='img-thumbnail' src='" + item.image + "'/></a>";
                 });
                 document.querySelector(".container-fluid").insertAdjacentHTML("beforeend", html);
             });
@@ -46,6 +46,10 @@
             location.href = "https://www.onlymaker.com";
         })
     });
+
+    function buildUrl(url) {
+        return url + ((url.indexOf("?") === -1) ? "?" : "&") + "utm_source=gallery&utm_medium=gallery&utm_campaign=gallery";
+    }
 </script>
 </body>
 </html>
