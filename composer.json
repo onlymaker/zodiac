@@ -1,0 +1,30 @@
+{
+  "name": "onlymaker/zodiac",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "jibo",
+      "email": "jibo@outlook.com"
+    }
+  ],
+  "license": "Unlicense",
+  "require": {
+    "ext-curl": "*",
+    "ext-gmagick": "*",
+    "ext-json": "*",
+    "bcosca/fatfree": "dev-3.6.5-syncxplus"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.3"
+  },
+  "repositories": {
+    "0": {
+      "type": "vcs",
+      "url": "https://github.com/syncxplus/fatfree"
+    },
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}
