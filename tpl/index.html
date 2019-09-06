@@ -14,11 +14,20 @@
     .img-thumbnail {
         margin-bottom: 2rem;
     }
+    .shop {
+        background-color: #f41515;
+        border-radius: 0;
+        color: white;
+        font-family: Cabin,sans-serif;
+        font-size: 0.875rem;
+        font-weight: 400;
+    }
 </style>
 </head>
 <body>
 <include href="common/top.html"/>
 <div class="container-fluid"></div>
+<div class="btn btn-block shop">Online Store</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         fetch("{{@BASE}}/gallery.json")
@@ -31,7 +40,11 @@
                     html += "<a href='" + item.url + "'><img alt='gallery' class='img-thumbnail' src='" + item.image + "'/></a>";
                 });
                 document.querySelector(".container-fluid").insertAdjacentHTML("beforeend", html);
-            })
+            });
+
+        document.querySelector(".shop").addEventListener("click", function () {
+            location.href = "https://www.onlymaker.com";
+        })
     });
 </script>
 </body>
