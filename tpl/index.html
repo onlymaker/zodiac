@@ -30,7 +30,7 @@
 <div class="btn btn-block shop">Online Store</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        fetch("{{@BASE}}/gallery.json")
+        fetch("{{@BASE}}/gallery")
             .then(function (response) {
                 return response.json();
             })
