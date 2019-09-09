@@ -8,6 +8,9 @@
             width: 150px;
             height: auto;
         }
+        p.fa {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -62,7 +65,12 @@
                     location.href = "{{@BASE}}/admin/Index/" + pageNo;
                 }
             });
-        })
+        });
+        document.querySelectorAll("p.fa").forEach(function (e) {
+            e.addEventListener("click", function () {
+                window.open(e.innerText.trim());
+            });
+        });
         document.querySelector(".fa-plus").parentNode.addEventListener("click", function () {
             location.href = "{{@BASE}}/admin/Create";
         });
