@@ -18,8 +18,6 @@
             <td>sku</td>
             <td>image</td>
             <td>url</td>
-            <td>facebook</td>
-            <td>ins</td>
             <td>
                 <div class="btn btn-sm btn-outline-primary"><i class="fa fa-plus">&nbsp;添加</i></div>
             </td>
@@ -29,9 +27,17 @@
             <tr>
                 <td>{{@value["sku"] ?? ''}}</td>
                 <td><img alt="{{@value['sku']}}" src="{{@value['image']}}"/></td>
-                <td>{{@value["url"]}}</td>
-                <td>{{@value["facebook"] ?? ''}}</td>
-                <td>{{@value["instagram"] ?? ''}}</td>
+                <td>
+                    <check if="{{@value['url']}}">
+                        <p class="fa fa-link">&nbsp;{{@value['url']}}</p>
+                    </check>
+                    <check if="{{@value['facebook']}}">
+                        <p class="fa fa-facebook-official">&nbsp;{{@value['facebook']}}</p>
+                    </check>
+                    <check if="{{@value['instagram']}}">
+                        <p class="fa fa-instagram">&nbsp;{{@value['instagram']}}</p>
+                    </check>
+                </td>
                 <td>
                     <div class="btn-group">
                         <div class="btn btn-sm btn-primary"><i class="fa fa-pencil" data-id="{{@value['id']}}">&nbsp;编辑</i></div>
