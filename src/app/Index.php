@@ -2,6 +2,8 @@
 
 namespace app;
 
+use db\JigMapper;
+
 class Index
 {
     function get()
@@ -9,13 +11,20 @@ class Index
         echo \Template::instance()->render('index.html');
     }
 
-    function gallery()
+    function gallery(\Base $f3)
     {
-        $file = RUNTIME . '/gallery.json';
-        if (is_file($file)) {
-            echo file_get_contents($file);
-        } else {
-            echo '[]';
+        $pageNo = $f3->get('PARAMS.pageNo') ?? 1;
+        $pageSize = 15;
+        $gallery = new JigMapper('gallery');
+        $data = $gallery->paginate(--$pageNo, $pageSize, null, ['order' => 'id SORT_DESC']);
+        $subset = [];
+        foreach ($data['subset'] as $item) {
+            $subset[] = $item->cast();
         }
+        echo json_encode([
+            'subset' => $subset,
+            'pageNo' => ++$data['pos'],
+            'pageCount' => $data['count'],
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 }

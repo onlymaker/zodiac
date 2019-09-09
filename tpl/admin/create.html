@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create</title>
+    <include href="common/header.html"/>
+    <style>
+        .display-4 {
+            margin: 50px auto;
+        }
+        label {
+            text-align: right !important;
+        }
+        .form-group:first-of-type {
+            margin-top: 2rem;
+        }
+        .form-group label {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="display-4">添加</h1>
+    <div class="form-group row">
+        <label for="sku" class="col-sm-2 col-form-label">SKU</label>
+        <div class="col-sm-10">
+            <input id="sku" type="text" class="form-control" placeholder="sku"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="image" class="col-sm-2 col-form-label">Image</label>
+        <div class="col-sm-10">
+            <input id="image" type="text" class="form-control" placeholder="image url"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="url" class="col-sm-2 col-form-label">URL</label>
+        <div class="col-sm-10">
+            <input id="url" type="text" class="form-control" placeholder="online store url"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="facebook" class="col-sm-2 col-form-label"><i class="fa fa-facebook">&nbsp;FB</i></label>
+        <div class="col-sm-10">
+            <input id="facebook" type="text" class="form-control" placeholder="facebook"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="instagram" class="col-sm-2 col-form-label"><i class="fa fa-instagram">&nbsp;INS</i></label>
+        <div class="col-sm-10">
+            <input id="instagram" type="text" class="form-control" placeholder="instagram"/>
+        </div>
+    </div>
+    <button id="create-btn" class="btn btn-primary btn-block" type="button">OK</button>
+</div>
+<script>
+    let waitingHtml = '<i class="fa fa-spinner fa-pulse animated">';
+    let createBtn = document.getElementById("create-btn");
+    document.addEventListener("DOMContentLoaded", function () {
+        createBtn.addEventListener("click", function () {
+            let sku = document.getElementById("sku").value;
+            let image = document.getElementById("image").value;
+            let url = document.getElementById("url").value;
+            let facebook = document.getElementById("facebook").value;
+            let instagram = document.getElementById("instagram").value;
+            if (checkRequirement("sku", sku) && checkRequirement("image", image) && checkRequirement("url", url)) {
+                createBtn.innerHTML = waitingHtml;
+                fetch(location.href, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: buildQuery({
+                        sku: sku,
+                        image: image,
+                        url: url,
+                        facebook: facebook,
+                        instagram: instagram,
+                    }),
+                })
+                    .then(function (response) {
+                        return response.text();
+                    })
+                    .then(function (text) {
+                        if (text === "success") {
+                            alert("添加成功");
+                            location.href = "{{@BASE}}/admin/Index";
+                        } else {
+                            alert(text);
+                        }
+                    })
+                    .catch(generalCallback)
+                    .finally(function () {
+                        createBtn.removeAttribute("disabled");
+                        createBtn.innerText = "OK";
+                    });
+            }
+        })
+    });
+
+    function checkRequirement(name, value) {
+        if (!value) {
+            alert("Require: " + name);
+        }
+        return !!value;
+    }
+</script>
+</body>
+</html>

@@ -21,13 +21,13 @@
         padding-top: .5rem;
         padding-right: .75rem;
     }
-    .fa-shopping-cart {
-        color: #f41515;
+    .fa {
+        margin-left: .5rem;
     }
     .fa-facebook-official {
         color: #4267b2;
     }
-    .shop {
+    .btn-block {
         background-color: #f41515;
         border-radius: 0;
         color: white;
@@ -40,32 +40,51 @@
 <body>
 <include href="common/top.html"/>
 <div class="container-fluid"></div>
-<div class="btn btn-block shop">Online Store</div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        fetch("{{@BASE}}/gallery")
+        loadGallery(1);
+    });
+
+    function loadGallery(page) {
+        fetch("{{@BASE}}/gallery/" + page)
             .then(function (response) {
                 return response.json();
             })
             .then(function (json) {
+                console.log(json);
                 let html = "";
-                json.forEach(function (item) {
+                json.subset.forEach(function (item) {
                     html += "<div class='wrapper'>" +
                         "<a href='" + buildUrl(item.url) + "'><img alt='gallery' class='img-thumbnail' src='" + item.image + "'/></a>" +
-                        "<div class='icon-bar'>" +
-                        //"<a href='" + buildUrl(item.url) + "'><i class='fa fa-shopping-cart'></i></a>" +
-                        "</div></div>";
+                        "<div class='icon-bar'>";
+                    if (item.facebook) {
+                        html += "<a href='" + item.facebook + "'><i class='fa fa-facebook-official'></i></a>";
+                    }
+                    if (item.instagram) {
+                        html += "<a href='" + item.instagram + "'><i class='fa fa-instagram'></i></a>";
+                    }
+                    html += "</div></div>";
                 });
+                if (json.pageCount > json.pageNo) {
+                    let next = Number(json.pageNo) + 1;
+                    html += '<div class="btn btn-block" onclick="more(' + next + ')">More</div>';
+                } else {
+                    html += '<div class="btn btn-block" onclick="shop()">Online Store</div>';
+                }
                 document.querySelector(".container-fluid").insertAdjacentHTML("beforeend", html);
             });
-
-        document.querySelector(".shop").addEventListener("click", function () {
-            location.href = "https://www.onlymaker.com";
-        })
-    });
-
+    }
     function buildUrl(url) {
         return url + ((url.indexOf("?") === -1) ? "?" : "&") + "utm_source=gallery&utm_medium=gallery&utm_campaign=gallery";
+    }
+
+    function more(next) {
+        document.querySelector(".container-fluid").innerHTML = "";
+        loadGallery(next);
+    }
+
+    function shop() {
+        location.href = "https://www.onlymaker.com";
     }
 </script>
 </body>

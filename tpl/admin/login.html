@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <include href="common/header.html"/>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .input {
+            margin: 1rem auto;
+        }
+        .input>span {
+            width: 80px;
+            padding-right: 1rem;
+            display: inline-block;
+            text-align: right;
+        }
+        .input>input {
+            width: 200px;
+        }
+        .btn-group {
+            margin: 10px auto;
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<body>
+<div class="login">
+    <div class="input"><span>username</span><input id="username" name="username" type="text"/></div>
+    <div class="input"><span>password</span><input id="password" name="password" type="password"/></div>
+    <div class="btn-group">
+        <button id="login-reset" class="btn btn-outline-primary">Reset</button>
+        <button id="login-submit" class="btn btn-outline-primary">Confirm</button>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/blueimp-md5/2.6.0/js/md5.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let usernameInput = document.getElementById("username");
+        let passwordInput = document.getElementById("password");
+        let loginReset = document.getElementById("login-reset");
+        let loginSubmit = document.getElementById("login-submit");
+
+        loginReset.addEventListener("click", function () {
+            usernameInput.value = "";
+            passwordInput.value = "";
+        });
+
+        loginSubmit.addEventListener("click", function () {
+            let username = usernameInput.value;
+            let password = passwordInput.value;
+            if (!username) {
+                alert("Require username!");
+                return usernameInput.focus();
+            } else if (!password) {
+                alert("Require password");
+                return passwordInput.focus();
+            }
+            let data = {username: username, password: md5(password)};
+            loginSubmit.setAttribute("disabled", "disabled");
+            fetch(location.href, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: buildQuery(data),
+            })
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (text) {
+                    if (text === "success") {
+                        location.href = getCookie("target");
+                    } else {
+                        alert(text);
+                    }
+                })
+                .catch(generalCallback)
+                .finally(function () {
+                    loginSubmit.removeAttribute("disabled");
+                });
+        });
+    });
+</script>
+</body>
+</html>

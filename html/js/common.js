@@ -23,6 +23,7 @@ function deleteCookie(name) {
 
 function buildQuery(data) {
     return Object.keys(data)
+        .filter(k => data[k])
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(data[k]))
         .join('&');
 }

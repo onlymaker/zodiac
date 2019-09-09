@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <include href="common/header.html"/>
+    <style>
+        td img {
+            width: 150px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <table class="table">
+        <thead>
+        <tr class="bg-dark text-light">
+            <td>sku</td>
+            <td>image</td>
+            <td>url</td>
+            <td>facebook</td>
+            <td>ins</td>
+            <td>
+                <div class="btn btn-sm btn-outline-primary"><i class="fa fa-plus">&nbsp;添加</i></div>
+            </td>
+        </tr>
+        </thead>
+        <repeat group="{{@gallery}}" value="{{@value}}">
+            <tr>
+                <td>{{@value["sku"] ?? ''}}</td>
+                <td><img alt="{{@value['sku']}}" src="{{@value['image']}}"/></td>
+                <td>{{@value["url"]}}</td>
+                <td>{{@value["facebook"] ?? ''}}</td>
+                <td>{{@value["instagram"] ?? ''}}</td>
+                <td>
+                    <div class="btn-group">
+                        <div class="btn btn-sm btn-primary"><i class="fa fa-pencil" data-id="{{@value['id']}}">&nbsp;编辑</i></div>
+                        <div class="btn btn-sm btn-danger"><i class="fa fa-minus" data-id="{{@value['id']}}">&nbsp;删除</i></div>
+                    </div>
+                </td>
+            </tr>
+        </repeat>
+    </table>
+    <nav>
+        <ul class="pagination justify-content-center"></ul>
+    </nav>
+</div>
+<script src="{{@BASE}}/js/pagination.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector("ul.pagination").insertAdjacentHTML("beforeend", pagination("{{@pageNo}}", "{{@pageCount}}"));
+        document.querySelectorAll("ul.pagination li").forEach(function (e) {
+            e.addEventListener("click", function () {
+                let pageNo = e.querySelector("a").getAttribute("data-page");
+                if (pageNo) {
+                    location.href = "{{@BASE}}/admin/Index/" + pageNo;
+                }
+            });
+        })
+        document.querySelector(".fa-plus").parentNode.addEventListener("click", function () {
+            location.href = "{{@BASE}}/admin/Create";
+        });
+        document.querySelectorAll(".fa-pencil").forEach(function (e) {
+            e.parentNode.addEventListener("click", function () {
+                location.href = "{{@BASE}}/admin/Edit?id=" + e.getAttribute("data-id");
+            });
+        });
+        document.querySelectorAll(".fa-minus").forEach(function (e) {
+            e.parentNode.addEventListener("click", function () {
+                if (confirm("删除后不可恢复\n确认删除?")) {
+                    fetch("{{@BASE}}/admin/Delete", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        },
+                        body: buildQuery({
+                            id: e.getAttribute("data-id"),
+                        }),
+                    })
+                        .then(function (response) {
+                            return response.text();
+                        })
+                        .then(function (text) {
+                            alert(text);
+                            if (text === "success") {
+                                e.parentNode.parentNode.parentNode.remove();
+                            }
+                        })
+                        .catch(generalCallback);
+                }
+            })
+        })
+    });
+</script>
+</body>
+</html>
