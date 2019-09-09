@@ -65,13 +65,14 @@
                     }
                     html += "</div></div>";
                 });
+                document.querySelector(".container-fluid").insertAdjacentHTML("beforeend", html);
                 if (json.pageCount > json.pageNo) {
                     let next = Number(json.pageNo) + 1;
-                    html += '<div class="btn btn-block" onclick="more(' + next + ')">More</div>';
+                    html = '<div class="btn btn-block" onclick="more(' + next + ')">More</div>';
                 } else {
-                    html += '<div class="btn btn-block" onclick="shop()">Online Store</div>';
+                    html = '<div class="btn btn-block" onclick="shop()">Online Store</div>';
                 }
-                document.querySelector(".container-fluid").insertAdjacentHTML("beforeend", html);
+                document.querySelector("body").insertAdjacentHTML("beforeend", html);
             });
     }
     function buildUrl(url) {
@@ -80,6 +81,7 @@
 
     function more(next) {
         document.querySelector(".container-fluid").innerHTML = "";
+        document.querySelector(".btn-block").remove();
         loadGallery(next);
     }
 
