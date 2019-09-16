@@ -50,8 +50,10 @@
 <include href="common/top.html"/>
 <div class="container-fluid"></div>
 <script>
+    let pageNo = "{{@pageNo}}";
+
     document.addEventListener("DOMContentLoaded", function () {
-        loadGallery(1);
+        loadGallery(pageNo);
     });
 
     function loadGallery(page) {
@@ -79,8 +81,8 @@
                     html += "<a href='" + buildUrl(item.url) + "'><i class='fa fa-shopping-cart'></i></a></div></div>";
                 });
                 document.querySelector(".container-fluid").insertAdjacentHTML("beforeend", html);
-                if (json.pageCount > json.pageNo) {
-                    let next = Number(json.pageNo) + 1;
+                if (json.pageCount > pageNo) {
+                    let next = Number(pageNo) + 1;
                     html = '<div class="btn btn-block" onclick="more(' + next + ')">More</div>';
                 } else {
                     html = '<div class="btn btn-block" onclick="shop()">Online Store</div>';
@@ -94,9 +96,10 @@
     }
 
     function more(next) {
-        document.querySelector(".container-fluid").innerHTML = "";
-        document.querySelector(".btn-block").remove();
-        loadGallery(next);
+        //document.querySelector(".container-fluid").innerHTML = "";
+        //document.querySelector(".btn-block").remove();
+        //loadGallery(next);
+        location.href = "{{@BASE}}?pageNo=" + next;
     }
 
     function shop() {

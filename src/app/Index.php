@@ -6,8 +6,10 @@ use db\JigMapper;
 
 class Index
 {
-    function get()
+    function get(\Base $f3)
     {
+        $pageNo = $f3->get('GET.pageNo') ?? 1;
+        $f3->set('pageNo', $pageNo);
         echo \Template::instance()->render('index.html');
     }
 
