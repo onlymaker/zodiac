@@ -83,9 +83,9 @@
                 document.querySelector(".container-fluid").insertAdjacentHTML("beforeend", html);
                 if (json.pageCount > pageNo) {
                     let next = Number(pageNo) + 1;
-                    html = '<div class="btn btn-block" onclick="more(' + next + ')">More</div>';
+                    html = '<div class="btn btn-block" onclick="more(' + next + ')">Next</div>';
                 } else {
-                    html = '<div class="btn btn-block" onclick="shop()">Online Store</div>';
+                    html = '<div class="btn btn-block" onclick="shop()">Continue to Online Store</div>';
                 }
                 document.querySelector("body").insertAdjacentHTML("beforeend", html);
             });
