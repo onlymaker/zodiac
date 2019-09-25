@@ -11,7 +11,7 @@ class Index
     function get(\Base $f3, array $params)
     {
         $pageNo = $params['pageNo'] ?? 1;
-        $pageSize = 15;
+        $pageSize = 20;
         $gallery = new JigMapper('gallery');
         $data = $gallery->paginate(--$pageNo, $pageSize, null, ['order' => 'id SORT_DESC']);
         if ($pageNo == $data['pos']) {
