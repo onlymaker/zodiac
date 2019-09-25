@@ -4,37 +4,33 @@
 <title>Onlymaker Star & Style</title>
 <include href="common/header.html"/>
 <style>
-    .container-fluid {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        align-items: center;
-    }
     .wrapper {
-        flex-direction: column;
-    }
-    .img-thumbnail {
-        padding-bottom: 2rem;
-    }
-    .icon-bar {
+        margin: 2px;
         display: flex;
-        justify-content: space-between;
-        margin-top: -2rem;
-        margin-bottom: 1rem;
-        padding: .25rem .5rem;
+        flex-wrap: wrap;
     }
-    .fa {
-        font-size: 1rem;
+    .wrapper div {
+        margin: 2px;
+        position: relative;
     }
-    .fa-shopping-cart {
-        color: #f41515;
+    .wrapper>div>i {
+        display: block;
+        background-color: lightblue;
     }
-    .fa-facebook-official {
-        color: #4267b2;
+    .wrapper>div>img {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        vertical-align: bottom;
+        cursor: pointer;
     }
-    .fa-ban {
-        color: transparent;
+    .wrapper>.placeholder {
+        flex-grow: 100;
+        flex-basis: 300px;
+        height: 0;
+        margin: 0;
     }
     .btn-block {
         background-color: #f41515;
@@ -48,7 +44,9 @@
 </head>
 <body>
 <include href="common/top.html"/>
-<div class="container-fluid"></div>
+<div class="wrapper">
+    <div class="placeholder"></div>
+</div>
 <script>
     let pageNo = "{{@pageNo}}";
 
@@ -57,6 +55,7 @@
     });
 
     function loadGallery(page) {
+        let height = 300;
         fetch("{{@BASE}}/gallery/" + page)
             .then(function (response) {
                 return response.json();
@@ -65,25 +64,17 @@
                 console.log(json);
                 let html = "";
                 json.subset.forEach(function (item) {
-                    html += "<div class='wrapper'>" +
-                        "<img alt='gallery' class='img-thumbnail' src='" + item.image + "'/>" +
-                        "<div class='icon-bar'>";
-                    if (item.facebook) {
-                        html += "<a href='" + item.facebook + "'><i class='fa fa-facebook-official'></i></a>";
-                    } else {
-                        html += "<a><i class='fa fa-ban'></i></a>"
-                    }
-                    if (item.instagram) {
-                        html += "<a href='" + item.instagram + "'><i class='fa fa-instagram'></i></a>";
-                    } else {
-                        html += "<a><i class='fa fa-ban'></i></a>"
-                    }
-                    html += "<a href='" + buildUrl(item.url) + "'><i class='fa fa-shopping-cart'></i></a></div></div>";
+                    html += '<div style="flex-basis:' + item.width * height / item.height + 'px;flex-grow:' + item.width * height / item.height + '">' +
+                        '<i class="img-holder" style="padding-bottom:' + item.height / item.width * 100 + '%"></i>' +
+                        '<img alt="' + item.sku + '" src="' + item.image + '" data-url="' + buildUrl(item.url) + '"/>' +
+                        '</div>'
                 });
-                document.querySelector(".container-fluid").insertAdjacentHTML("beforeend", html);
+                document.querySelector(".wrapper").insertAdjacentHTML("beforeend", html);
+                addImageClickListener();
+                addPlaceHolder();
                 if (json.pageCount > pageNo) {
-                    let next = Number(pageNo) + 1;
-                    html = '<div class="btn btn-block" onclick="more(' + next + ')">Next</div>';
+                    ++pageNo;
+                    html = '<div class="btn btn-block" onclick="more(' + pageNo + ')">More</div>';
                 } else {
                     html = '<div class="btn btn-block" onclick="shop()">Continue to Online Store</div>';
                 }
@@ -96,14 +87,31 @@
     }
 
     function more(next) {
-        //document.querySelector(".container-fluid").innerHTML = "";
-        //document.querySelector(".btn-block").remove();
-        //loadGallery(next);
-        location.href = "{{@BASE}}?pageNo=" + next;
+        document.querySelector(".btn-block").remove();
+        loadGallery(next);
     }
 
     function shop() {
         location.href = "https://www.onlymaker.com";
+    }
+
+    function addImageClickListener() {
+        document.querySelectorAll(".wrapper>div>img").forEach(function (e) {
+            e.addEventListener("click", clickImage)
+        });
+    }
+
+    function clickImage() {
+        location.href = arguments[0].path[0].dataset.url;
+    }
+
+    function addPlaceHolder() {
+        document.querySelectorAll(".placeholder").forEach(function (e) {
+            e.remove();
+        });
+        for (let i = 0; i < 10; i++) {
+            document.querySelector(".wrapper").insertAdjacentHTML("beforeend", '<div class="placeholder"></div>');
+        }
     }
 </script>
 </body>
