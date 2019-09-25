@@ -45,12 +45,13 @@
         justify-content: center;
         padding: .5rem;
         flex-direction: column;
+        min-height: 360px;
     }
     .modal-content>img {
         width: 100%;
         height: 100%;
     }
-    .icon-bar {
+    .fa-icon-wrapper {
         display: flex;
         justify-content: space-between;
     }
@@ -139,8 +140,8 @@
     }
 
     function clickImage() {
-        let html = '<img src="' + arguments[0].path[0].getAttribute("src") + '">' +
-            '<div class="icon-bar">';
+        let html = '<img src="' + arguments[0].path[0].getAttribute("src").replace("_360x", "") + '">' +
+            '<div class="fa-icon-wrapper">';
         let facebook = arguments[0].path[0].dataset.facebook;
         if (facebook) {
             html += "<a href='" + facebook + "'><i class='fa fa-facebook-official'></i></a>";
