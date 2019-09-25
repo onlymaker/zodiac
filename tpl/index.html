@@ -36,9 +36,35 @@
         background-color: #f41515;
         border-radius: 0;
         color: white;
-        font-family: Cabin,sans-serif;
+        font-family: Cabin, sans-serif;
         font-size: 0.875rem;
         font-weight: 400;
+    }
+    .modal-content {
+        display: flex;
+        justify-content: center;
+        padding: .5rem;
+        flex-direction: column;
+    }
+    .modal-content>img {
+        width: 100%;
+        height: 100%;
+    }
+    .icon-bar {
+        display: flex;
+        justify-content: space-between;
+    }
+    .fa {
+        font-size: 1rem;
+    }
+    .fa-shopping-cart {
+        color: #f41515;
+    }
+    .fa-facebook-official {
+        color: #4267b2;
+    }
+    .fa-ban {
+        color: transparent;
     }
 </style>
 </head>
@@ -46,6 +72,11 @@
 <include href="common/top.html"/>
 <div class="wrapper">
     <div class="placeholder"></div>
+</div>
+<div id="viewer" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
 </div>
 <script>
     let pageNo = "{{@pageNo}}";
@@ -66,8 +97,10 @@
                 json.subset.forEach(function (item) {
                     html += '<div style="flex-basis:' + item.width * height / item.height + 'px;flex-grow:' + item.width * height / item.height + '">' +
                         '<i class="img-holder" style="padding-bottom:' + item.height / item.width * 100 + '%"></i>' +
-                        '<img alt="' + item.sku + '" src="' + item.image + '" data-url="' + buildUrl(item.url) + '"/>' +
-                        '</div>'
+                        '<img alt="' + item.sku + '" src="' + item.image + '" data-url="' + buildUrl(item.url) + '"' +
+                        (item.facebook ? ' data-facebook="' + item.facebook + '"' : '') +
+                        (item.instagram ? ' data-instagram="' + item.instagram + '"' : '') +
+                        '/></div>'
                 });
                 document.querySelector(".wrapper").insertAdjacentHTML("beforeend", html);
                 addImageClickListener();
@@ -106,7 +139,29 @@
     }
 
     function clickImage() {
-        location.href = arguments[0].path[0].dataset.url;
+        let html = '<img src="' + arguments[0].path[0].getAttribute("src") + '">' +
+            '<div class="icon-bar">';
+        let facebook = arguments[0].path[0].dataset.facebook;
+        if (facebook) {
+            html += "<a href='" + facebook + "'><i class='fa fa-facebook-official'></i></a>";
+        } else {
+            html += "<a><i class='fa fa-ban'></i></a>"
+        }
+        html += "<a href='" + arguments[0].path[0].dataset.url + "'><i class='fa fa-shopping-cart'></i></a>";
+        let instagram = arguments[0].path[0].dataset.instagram;
+        if (instagram) {
+            html += "<a href='" + instagram + "'><i class='fa fa-instagram'></i></a>";
+        } else {
+            html += "<a><i class='fa fa-ban'></i></a>"
+        }
+        html += "</div>";
+        $("#viewer .modal-content")
+            .attr("data-url", arguments[0].path[0].dataset.url)
+            .html(html);
+        $("#viewer").modal({
+            //backdrop: "static",
+            keyboard: false,
+        });
     }
 
     function addPlaceHolder() {
