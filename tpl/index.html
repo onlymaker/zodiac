@@ -72,6 +72,10 @@
                 document.querySelector(".wrapper").insertAdjacentHTML("beforeend", html);
                 addImageClickListener();
                 addPlaceHolder();
+                let btn = document.querySelector(".btn-block");
+                if (btn) {
+                    btn.remove();
+                }
                 if (json.pageCount > pageNo) {
                     ++pageNo;
                     html = '<div class="btn btn-block" onclick="more(' + pageNo + ')">More</div>';
@@ -87,7 +91,7 @@
     }
 
     function more(next) {
-        document.querySelector(".btn-block").remove();
+        document.querySelector(".btn-block").innerHTML = ('<i class="fa fa-spinner fa-pulse animated"></i>');
         loadGallery(next);
     }
 
