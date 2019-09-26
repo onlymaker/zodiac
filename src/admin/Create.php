@@ -15,7 +15,7 @@ class Create extends Index
     {
         $gallery = new JigMapper('gallery');
         $gallery->copyfrom($f3->get('POST'));
-        $size = getimagesize($gallery['image']);
+        $size = $this->fetchImage($gallery['image']);
         if ($size) {
             $gallery['id'] = $this->nextId();
             $gallery['create_time'] = date('Y-m-d H:i:s');
