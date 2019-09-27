@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Onlymaker Star & Style</title>
+<style>
+    .album {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .album div {
+        margin: 2px;
+        position: relative;
+    }
+    .album>div>i {
+        display: block;
+        background-color: lightblue;
+    }
+    .album>div>img {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        vertical-align: bottom;
+        cursor: pointer;
+    }
+    .album>.placeholder {
+        flex-grow: 100000;
+        align-self: center;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<div class="album">
+    <repeat group="{{@album}}" value="{{@value}}">
+        <div style="flex-basis:{{@value['bias']}}px;flex-grow:{{@value['grow']}}">
+            <i class="img-holder" style="padding-bottom:{{@value['bottom']}}%"></i>
+            <img alt="{{@value['sku']}}" src="{{@value['image']}}" onclick="location.href='{{@value['url']}}'"/>
+        </div>
+    </repeat>
+    <div class="placeholder">
+        <div class="text-link" onclick="location.href='https://gallery.onlymaker.com'">More >>></div>
+    </div>
+</div>
+</body>
+</html>
