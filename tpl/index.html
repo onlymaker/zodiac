@@ -144,14 +144,14 @@
             '<div class="fa-icon-wrapper">';
         let facebook = arguments[0].path[0].dataset.facebook;
         if (facebook) {
-            html += "<a href='" + facebook + "'><i class='fa fa-facebook-official'></i></a>";
+            html += "<a href='" + facebook + "' target='_blank'><i class='fa fa-facebook-official'></i></a>";
         } else {
             html += "<a><i class='fa fa-ban'></i></a>"
         }
         html += "<a href='" + arguments[0].path[0].dataset.url + "'><i class='fa fa-shopping-cart'></i></a>";
         let instagram = arguments[0].path[0].dataset.instagram;
         if (instagram) {
-            html += "<a href='" + instagram + "'><i class='fa fa-instagram'></i></a>";
+            html += "<a href='" + instagram + "' target='_blank'><i class='fa fa-instagram'></i></a>";
         } else {
             html += "<a><i class='fa fa-ban'></i></a>"
         }
