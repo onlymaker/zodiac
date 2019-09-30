@@ -30,7 +30,7 @@ class Album
     {
         $height = 300;
         $gallery = new JigMapper('gallery');
-        $data = $gallery->paginate(0, 15, null, ['order' => 'id SORT_DESC']);
+        $data = $gallery->paginate(0, 15, ["@featured='yes'"], ['order' => 'id SORT_DESC']);
         $album = [];
         foreach ($data['subset'] as $item) {
             $fields = $item->cast();
