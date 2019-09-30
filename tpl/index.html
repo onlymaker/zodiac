@@ -27,7 +27,7 @@
         cursor: pointer;
     }
     .wrapper>.placeholder {
-        flex-grow: 100;
+        flex-grow: 100000;
         flex-basis: 300px;
         height: 0;
         margin: 0;
@@ -103,9 +103,8 @@
                         (item.instagram ? ' data-instagram="' + item.instagram + '"' : '') +
                         '/></div>'
                 });
-                document.querySelector(".wrapper").insertAdjacentHTML("beforeend", html);
+                document.querySelector(".placeholder").insertAdjacentHTML("beforebegin", html);
                 addImageClickListener();
-                addPlaceHolder();
                 let btn = document.querySelector(".btn-block");
                 if (btn) {
                     btn.remove();
@@ -163,15 +162,6 @@
             //backdrop: "static",
             keyboard: false,
         });
-    }
-
-    function addPlaceHolder() {
-        document.querySelectorAll(".placeholder").forEach(function (e) {
-            e.remove();
-        });
-        for (let i = 0; i < 10; i++) {
-            document.querySelector(".wrapper").insertAdjacentHTML("beforeend", '<div class="placeholder"></div>');
-        }
     }
 </script>
 </body>
