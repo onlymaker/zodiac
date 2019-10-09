@@ -30,13 +30,13 @@ class Album
     {
         $height = 300;
         $gallery = new JigMapper('gallery');
-        $data = $gallery->paginate(0, 15, ["@featured='yes'"], ['order' => 'id SORT_DESC']);
+        $data = $gallery->paginate(0, $f3->get('ALBUM_SIZE'), ["@featured='yes'"], ['order' => 'id SORT_DESC']);
         $album = [];
         foreach ($data['subset'] as $item) {
             $fields = $item->cast();
             $fields['bias'] = $fields['width'] / $fields['height'] * $height;
             $fields['grow'] = $fields['bias'];
-            $fields['bottom'] = $fields['height'] / $fields['width'] * 100;//转换为百分比
+            $fields['bottom'] = sprintf('%.2f%%',$fields['height'] / $fields['width'] * 100);//转换为百分比
             $fields['url'] .= ((strpos($fields['url'], '?', 1)) ? '&' : '?') . 'utm_source=gallery&utm_medium=gallery&utm_campaign=gallery';
             $album[] = $fields;
         }
