@@ -37,7 +37,7 @@ class Album
             $fields['bias'] = $fields['width'] / $fields['height'] * $height;
             $fields['grow'] = $fields['bias'];
             $fields['bottom'] = sprintf('%.2f%%',$fields['height'] / $fields['width'] * 100);//转换为百分比
-            $fields['url'] .= ((strpos($fields['url'], '?', 1)) ? '&' : '?') . 'utm_source=gallery&utm_medium=gallery&utm_campaign=gallery';
+            $fields['url'] .= ((strpos($fields['url'], '?', 1)) ? '&' : '?') . 'utm_source=gallery&utm_medium=album&utm_campaign=jibo';
             $album[] = $fields;
         }
         $f3->set('album', $album);
