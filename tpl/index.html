@@ -4,6 +4,27 @@
 <title>Onlymaker Star & Style</title>
 <include href="common/header.html"/>
 <style>
+    body {
+        font-family: Cabin, sans-serif;;
+    }
+    .text-banner {
+        margin: 0.8rem auto 1.6rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .text-banner .message {
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: rgba(0, 0, 0, .5);
+        padding: 20px;
+    }
+    .text-banner .mention {
+        font-size: 1rem;
+        font-weight: 400;
+        color: #f41515;
+    }
     .wrapper {
         margin: 2px;
         display: flex;
@@ -36,7 +57,6 @@
         background-color: #f41515;
         border-radius: 0;
         color: white;
-        font-family: Cabin, sans-serif;
         font-size: 0.875rem;
         font-weight: 400;
     }
@@ -71,6 +91,10 @@
 </head>
 <body>
 <include href="common/top.html"/>
+<div class="text-banner">
+    <div class="message">Share your style on Instagram and have your images featured here</div>
+    <div class="mention">Tag #Onlymaker and @onlymaker_shoes</div>
+</div>
 <div class="wrapper">
     <div class="placeholder"></div>
 </div>
