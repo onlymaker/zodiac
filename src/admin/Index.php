@@ -3,6 +3,7 @@
 namespace admin;
 
 use db\JigMapper;
+use helper\Sort;
 
 class Index
 {
@@ -13,7 +14,7 @@ class Index
         $pageNo = $params['pageNo'] ?? 1;
         $pageSize = 20;
         $gallery = new JigMapper('gallery');
-        $data = $gallery->paginate(--$pageNo, $pageSize, null, ['order' => 'id SORT_DESC']);
+        $data = $gallery->paginate(--$pageNo, $pageSize, null, Sort::DEFAULT);
         if ($pageNo == $data['pos']) {
             $subset = [];
             foreach ($data['subset'] as $item) {

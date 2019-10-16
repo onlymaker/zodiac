@@ -3,6 +3,7 @@
 namespace app;
 
 use db\JigMapper;
+use helper\Sort;
 
 /*
 <div id="gallery"></div>
@@ -30,7 +31,7 @@ class Album
     {
         $height = 300;
         $gallery = new JigMapper('gallery');
-        $data = $gallery->paginate(0, $f3->get('ALBUM_SIZE'), ["@featured='yes'"], ['order' => 'id SORT_DESC']);
+        $data = $gallery->paginate(0, $f3->get('ALBUM_SIZE'), ["@featured='yes'"], Sort::DEFAULT);
         $album = [];
         foreach ($data['subset'] as $item) {
             $fields = $item->cast();

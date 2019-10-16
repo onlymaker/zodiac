@@ -3,6 +3,7 @@
 namespace admin;
 
 use db\JigMapper;
+use helper\Sort;
 
 class Create extends Index
 {
@@ -17,7 +18,7 @@ class Create extends Index
         $gallery->copyfrom($f3->get('POST'));
         $size = $this->fetchImage($gallery['image']);
         if ($size) {
-            $gallery['id'] = $this->nextId();
+            $gallery['id'] = (new Sort())->nextId();
             $gallery['create_time'] = date('Y-m-d H:i:s');
             $gallery['width'] = $size[0];
             $gallery['height'] = $size[1];
@@ -26,20 +27,6 @@ class Create extends Index
         } else {
             echo 'Can not get image size';
         }
-    }
-
-    function nextId()
-    {
-        $id = new JigMapper('id');
-        $id->load(['@object=?', 'gallery']);
-        if ($id->dry()) {
-            $id['object'] = 'gallery';
-            $id['id'] = 2;
-        } else {
-            $id['id']++;
-        }
-        $id->save();
-        return --$id['id'];
     }
 
     function fetchImage($url)

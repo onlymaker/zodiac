@@ -4,6 +4,9 @@
     <title>Edit</title>
     <include href="common/header.html"/>
     <style>
+        body {
+            padding-bottom: 1rem;
+        }
         .display-4 {
             margin: 50px auto;
         }
@@ -21,8 +24,11 @@
 <body>
 <div class="container">
     <h1 class="display-4">修改</h1>
-    <div style="text-align:center;margin:2rem auto">
+    <div style="text-align:center;margin:1rem auto">
         <img class="thumbnail" alt="{{@gallery['sku']}}" src="{{@gallery['image']}}"/>
+    </div>
+    <div style="text-align:center;margin:1rem auto">
+        <div id="ding" class="btn btn-outline-secondary">置顶</div>
     </div>
     <div class="form-group row">
         <label for="sku" class="col-sm-2 col-form-label">SKU</label>
@@ -75,8 +81,39 @@
 </div>
 <script>
     let waitingHtml = '<i class="fa fa-spinner fa-pulse animated">';
+    let ding = document.getElementById("ding");
     let btn = document.querySelector(".btn-block");
+
     document.addEventListener("DOMContentLoaded", function () {
+        ding.addEventListener("click", function () {
+            ding.innerHTML = waitingHtml;
+            fetch("{{@BASE}}/admin/Ding", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: buildQuery({
+                    id: "{{@gallery['id']}}",
+                }),
+            })
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (text) {
+                    if (text === "success") {
+                        alert("修改成功");
+                        location.href = "{{@BASE}}/admin/Index";
+                    } else {
+                        alert(text);
+                    }
+                })
+                .catch(generalCallback)
+                .finally(function () {
+                    ding.removeAttribute("disabled");
+                    ding.innerText = "置顶";
+                });
+        });
+
         btn.addEventListener("click", function () {
             let sku = document.getElementById("sku").value;
             let image = document.getElementById("image").value;
