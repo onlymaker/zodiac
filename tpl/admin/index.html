@@ -25,7 +25,10 @@
             <td>image</td>
             <td>url</td>
             <td>
-                <div class="btn btn-sm btn-outline-primary"><i class="fa fa-plus">&nbsp;添加</i></div>
+                <div class="btn-group">
+                    <div class="btn btn-sm btn-outline-primary"><i class="fa fa-plus">&nbsp;添加</i></div>
+                    <div class="btn btn-sm btn-outline-success"><i class="fa fa-image">&nbsp;浏览</i></div>
+                </div>
             </td>
         </tr>
         </thead>
@@ -75,7 +78,10 @@
             });
         });
         document.querySelector(".fa-plus").parentNode.addEventListener("click", function () {
-            location.href = "{{@BASE}}/admin/Create";
+            window.open("{{@BASE}}/admin/Create");
+        });
+        document.querySelector(".fa-image").parentNode.addEventListener("click", function () {
+            window.open("{{@BASE}}/");
         });
         document.querySelectorAll(".fa-pencil").forEach(function (e) {
             e.parentNode.addEventListener("click", function () {
