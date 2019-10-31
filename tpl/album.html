@@ -15,7 +15,7 @@
         display: block;
         background-color: lightblue;
     }
-    .album>div>img {
+    .album>div img {
         position: absolute;
         top: 0;
         width: 100%;
@@ -36,7 +36,9 @@
     <repeat group="{{@album}}" value="{{@value}}">
         <div style="flex-basis:{{@value['bias']}}px;flex-grow:{{@value['grow']}}">
             <i class="img-holder" style="padding-bottom:{{@value['bottom']}}"></i>
-            <img alt="{{@value['sku']}}" src="{{@value['image']}}" onclick="location.href='{{@value['url']}}'"/>
+            <a href="{{@value['url']}}">
+                <img alt="{{@value['sku']}}" src="{{@value['image']}}"/>
+            </a>
         </div>
     </repeat>
     <div class="placeholder">
