@@ -14,10 +14,10 @@ class Best
     function get(\Base $f3)
     {
         $best = [
+            167,
             13,
             59,
             122,
-            135,
             72,
             119,
         ];
