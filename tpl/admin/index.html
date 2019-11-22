@@ -78,6 +78,7 @@
             });
         });
         document.querySelector(".fa-plus").parentNode.addEventListener("click", function () {
+            setCookie("pageNo", "{{@pageNo}}");
             window.open("{{@BASE}}/admin/Create");
         });
         document.querySelector(".fa-image").parentNode.addEventListener("click", function () {
@@ -85,6 +86,7 @@
         });
         document.querySelectorAll(".fa-pencil").forEach(function (e) {
             e.parentNode.addEventListener("click", function () {
+                setCookie("pageNo", "{{@pageNo}}");
                 location.href = "{{@BASE}}/admin/Edit?id=" + e.getAttribute("data-id");
             });
         });
