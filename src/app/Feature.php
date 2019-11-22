@@ -4,6 +4,7 @@ namespace app;
 
 use db\JigMapper;
 use helper\Sort;
+use helper\Tag;
 
 /*
 <div id="gallery"></div>
@@ -33,11 +34,12 @@ class Feature
         $i = 0;
         $height = 300;
         $size = $f3->get('ALBUM_SIZE');
+        $tag = new Tag();
         $gallery = new JigMapper('gallery');
         $gallery->load(null, Sort::DEFAULT);
         while ($i < $size && !$gallery->dry()) {
             $tags = explode(',', $gallery['featured'] ?? '');
-            if (in_array($params['feature'], $tags)) {
+            if ($tag->match($params['feature'], $tags)) {
                 $fields = $gallery->cast();
                 $fields['bias'] = $fields['width'] / $fields['height'] * $height;
                 $fields['grow'] = $fields['bias'];
@@ -49,6 +51,7 @@ class Feature
             $gallery->next();
         }
         $f3->set('album', $album);
+        $f3->set('more', $tag->more($params['feature']));
         echo \Template::instance()->render('feature.html');
     }
 }

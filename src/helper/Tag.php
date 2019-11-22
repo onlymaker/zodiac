@@ -1,8 +1,6 @@
 <?php
 
-
 namespace helper;
-
 
 class Tag
 {
@@ -17,5 +15,21 @@ class Tag
     {
         $class = new \ReflectionClass('helper\Tag');
         return $class->getConstants();
+    }
+
+    function match($request, $collection)
+    {
+        if ($request == self::MEN) {
+            return in_array(self::MEN, $collection);
+        } else {
+            return !in_array(self::MEN, $collection) && in_array($request, $collection);
+        }
+    }
+
+    function more($request)
+    {
+        return !in_array($request, [
+            self::BEST,
+        ]);
     }
 }

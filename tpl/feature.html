@@ -42,7 +42,9 @@
         </div>
     </repeat>
     <div class="placeholder">
-        <div class="text-link" onclick="window.open('https://gallery.onlymaker.com')">More >>></div>
+        <check if="{{@more}}">
+            <div class="text-link" onclick="window.open('https://gallery.onlymaker.com')">More >>></div>
+        </check>
     </div>
 </div>
 </body>
