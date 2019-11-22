@@ -46,6 +46,9 @@
                     <check if="{{@value['instagram']}}">
                         <p class="fa fa-instagram">&nbsp;{{@value['instagram']}}</p>
                     </check>
+                    <check if="{{@value['featured']}}">
+                        <p class="fa fa-tag">&nbsp;{{@value['featured']}}</p>
+                    </check>
                 </td>
                 <td>
                     <div class="btn-group">
@@ -74,7 +77,9 @@
         });
         document.querySelectorAll("p.fa").forEach(function (e) {
             e.addEventListener("click", function () {
-                window.open(e.innerText.trim());
+                if (e.classList[1] != 'fa-tag') {
+                    window.open(e.innerText.trim());
+                }
             });
         });
         document.querySelector(".fa-plus").parentNode.addEventListener("click", function () {
