@@ -45,7 +45,9 @@ class Feature
                 $fields['bias'] = $fields['width'] / $fields['height'] * $height;
                 $fields['grow'] = $fields['bias'];
                 $fields['bottom'] = sprintf('%.2f%%',$fields['height'] / $fields['width'] * 100);//转换为百分比
-                $fields['url'] .= ((strpos($fields['url'], '?', 1)) ? '&' : '?') . 'utm_source=feature&utm_medium=' . $feature . '&utm_campaign=gallery';
+                if (!strpos($fields['url'], 's.onlymaker.com')) {
+                    $fields['url'] .= ((strpos($fields['url'], '?', 1)) ? '&' : '?') . 'utm_source=feature&utm_medium=' . $feature . '&utm_campaign=gallery';
+                }
                 $album[] = $fields;
                 $i++;
             }
