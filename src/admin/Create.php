@@ -4,11 +4,13 @@ namespace admin;
 
 use db\JigMapper;
 use helper\Sort;
+use helper\Tag;
 
 class Create extends Index
 {
     function get(\Base $f3, array $params)
     {
+        $f3->set('tags', (new Tag())->all());
         echo \Template::instance()->render('admin/create.html');
     }
 

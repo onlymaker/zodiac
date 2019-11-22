@@ -120,13 +120,13 @@
             let url = document.getElementById("url").value;
             let facebook = document.getElementById("facebook").value;
             let instagram = document.getElementById("instagram").value;
-            let tags = [];
-            document.querySelectorAll("input[name=tag]").forEach(function (e) {
-                if (e.checked) {
-                    tags.push(e.value);
-                }
-            });
             if (checkRequirement("sku", sku) && checkRequirement("url", url)) {
+                let tags = [];
+                document.querySelectorAll("input[name=tag]").forEach(function (e) {
+                    if (e.checked) {
+                        tags.push(e.value);
+                    }
+                });
                 btn.innerHTML = waitingHtml;
                 fetch(location.href, {
                     method: "POST",
