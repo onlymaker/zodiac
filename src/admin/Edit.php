@@ -3,6 +3,7 @@
 namespace admin;
 
 use db\JigMapper;
+use helper\Tag;
 
 class Edit extends Index
 {
@@ -14,6 +15,8 @@ class Edit extends Index
             $f3->error(404, "Not Found");
         } else {
             $f3->set('gallery', $gallery->cast());
+            $f3->set('tags', (new Tag())->all());
+            $f3->set('featured', $gallery['featured'] ?? '');
             echo \Template::instance()->render('admin/edit.html');
         }
     }

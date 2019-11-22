@@ -61,20 +61,14 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="featured" class="col-sm-2 col-form-label">Featured</label>
+        <div class="col-sm-2"></div>
         <div class="col-sm-10">
-            <select id="featured" class="form-control">
-                <check if="{{@gallery['featured'] == 'yes'}}">
-                    <true>
-                        <option value="yes" selected>Yes</option>
-                        <option value="no">No</option>
-                    </true>
-                    <false>
-                        <option value="yes">Yes</option>
-                        <option value="no" selected>No</option>
-                    </false>
-                </check>
-            </select>
+            <repeat group="{{@tags}}" key="{{@key}}" value="{{@tag}}">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" id="cb{{@key}}" type="checkbox" name="tag" value="{{@tag}}">
+                    <label class="form-check-label" for="cb{{@key}}">{{@tag}}</label>
+                </div>
+            </repeat>
         </div>
     </div>
     <button class="btn btn-primary btn-block" type="button">OK</button>
@@ -85,6 +79,12 @@
     let btn = document.querySelector(".btn-block");
 
     document.addEventListener("DOMContentLoaded", function () {
+        let features = "{{@featured}}".split(",");
+        document.querySelectorAll("input[name=tag]").forEach(function (e) {
+            if (features.indexOf(e.value) !== -1) {
+                e.checked = true;
+            }
+        });
         ding.addEventListener("click", function () {
             ding.innerHTML = waitingHtml;
             fetch("{{@BASE}}/admin/Ding", {
@@ -120,7 +120,12 @@
             let url = document.getElementById("url").value;
             let facebook = document.getElementById("facebook").value;
             let instagram = document.getElementById("instagram").value;
-            let featured = document.getElementById("featured").value;
+            let tags = [];
+            document.querySelectorAll("input[name=tag]").forEach(function (e) {
+                if (e.checked) {
+                    tags.push(e.value);
+                }
+            });
             if (checkRequirement("sku", sku) && checkRequirement("url", url)) {
                 btn.innerHTML = waitingHtml;
                 fetch(location.href, {
@@ -134,7 +139,7 @@
                         url: url,
                         facebook: facebook,
                         instagram: instagram,
-                        featured: featured,
+                        featured: tags.join(","),
                     }),
                 })
                     .then(function (response) {
