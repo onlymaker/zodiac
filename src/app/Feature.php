@@ -65,6 +65,7 @@ class Feature
                 $f3->set('more', 'https://gallery.onlymaker.com');
                 break;
             case Tag::BEST:
+            case Tag::CHRISTMAS:
                 break;
             default:
                 if (count($album) == $size) {

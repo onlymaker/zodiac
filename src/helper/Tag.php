@@ -10,6 +10,7 @@ class Tag
     const PUMPS = 'pumps';
     const SANDALS = 'sandals';
     const BEST = 'best';
+    const CHRISTMAS = 'christmas';
 
     function all()
     {
