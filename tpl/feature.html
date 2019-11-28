@@ -2,7 +2,29 @@
 <html lang="en">
 <head>
 <title>Onlymaker Star & Style</title>
+<include href="common/header.html"/>
 <style>
+    body {
+        font-family: Cabin, sans-serif;;
+    }
+    .text-banner {
+        margin: 0.8rem auto 1.6rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .text-banner .message {
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: rgba(0, 0, 0, .5);
+        padding: 20px;
+    }
+    .text-banner .mention {
+        font-size: 1rem;
+        font-weight: 400;
+        color: #f41515;
+    }
     .album {
         display: flex;
         flex-wrap: wrap;
@@ -29,9 +51,23 @@
         align-self: center;
         cursor: pointer;
     }
+    .btn-block {
+        background-color: #f41515;
+        border-radius: 0;
+        color: white;
+        font-size: 0.875rem;
+        font-weight: 400;
+    }
 </style>
 </head>
 <body>
+<check if="{{@pageNo>1}}">
+<include href="common/top.html"/>
+    <div class="text-banner">
+        <div class="message">Share your style on Instagram and have your images featured here</div>
+        <div class="mention">Tag #Onlymaker and @onlymaker_shoes</div>
+    </div>
+</check>
 <div class="album">
     <repeat group="{{@album}}" value="{{@value}}">
         <div style="flex-basis:{{@value['bias']}}px;flex-grow:{{@value['grow']}}">
@@ -42,10 +78,13 @@
         </div>
     </repeat>
     <div class="placeholder">
-        <check if="{{@more}}">
+        <check if="{{@more && @pageNo==1}}">
             <div class="text-link" onclick="window.open('{{@more}}')">More >>></div>
         </check>
     </div>
 </div>
+<check if="{{@more && @pageNo>1}}">
+    <div class="btn btn-block" onclick="location.href='{{@more}}'">More</div>
+</check>
 </body>
 </html>

@@ -59,6 +59,7 @@ class Feature
         }
         $f3->set('album', $album);
         $f3->set('tag', $feature);
+        $f3->set('pageNo', $pageNo);
         switch ($feature) {
             case Tag::LEGACY:
                 $f3->set('more', 'https://gallery.onlymaker.com');
