@@ -25,11 +25,4 @@ class Tag
             return !in_array(self::MEN, $collection) && in_array($request, $collection);
         }
     }
-
-    function more($request)
-    {
-        return !in_array($request, [
-            self::BEST,
-        ]);
-    }
 }

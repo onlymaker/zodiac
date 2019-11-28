@@ -34,27 +34,42 @@ class Feature
         $i = 0;
         $height = 300;
         $size = $f3->get('ALBUM_SIZE');
+        $pageNo = $f3->get('PARAMS.pageNo') ?? 1;
+        $offset = ($pageNo - 1) * $size;
         $feature = $params['feature'];
         $tag = new Tag();
         $gallery = new JigMapper('gallery');
         $gallery->load(null, Sort::DEFAULT);
-        while ($i < $size && !$gallery->dry()) {
+        while ($i < ($size + $offset) && !$gallery->dry()) {
             $tags = explode(',', $gallery['featured'] ?? '');
             if ($tag->match($feature, $tags)) {
-                $fields = $gallery->cast();
-                $fields['bias'] = $fields['width'] / $fields['height'] * $height;
-                $fields['grow'] = $fields['bias'];
-                $fields['bottom'] = sprintf('%.2f%%',$fields['height'] / $fields['width'] * 100);//转换为百分比
-                if (!strpos($fields['url'], 's.onlymaker.com')) {
-                    $fields['url'] .= ((strpos($fields['url'], '?', 1)) ? '&' : '?') . 'utm_source=feature&utm_medium=' . $feature . '&utm_campaign=gallery';
-                }
-                $album[] = $fields;
                 $i++;
+                if ($i > $offset) {
+                    $fields = $gallery->cast();
+                    $fields['bias'] = $fields['width'] / $fields['height'] * $height;
+                    $fields['grow'] = $fields['bias'];
+                    $fields['bottom'] = sprintf('%.2f%%', $fields['height'] / $fields['width'] * 100);//转换为百分比
+                    if (!strpos($fields['url'], 's.onlymaker.com')) {
+                        $fields['url'] .= ((strpos($fields['url'], '?', 1)) ? '&' : '?') . 'utm_source=feature&utm_medium=' . $feature . '&utm_campaign=gallery';
+                    }
+                    $album[] = $fields;
+                }
             }
             $gallery->next();
         }
         $f3->set('album', $album);
-        $f3->set('more', $tag->more($feature));
+        $f3->set('tag', $feature);
+        switch ($feature) {
+            case Tag::LEGACY:
+                $f3->set('more', 'https://gallery.onlymaker.com');
+                break;
+            case Tag::BEST:
+                break;
+            default:
+                if (count($album) == $size) {
+                    $f3->set('more', 'https://gallery.onlymaker.com/tag/' . $feature . '/' . ($pageNo + 1));
+                }
+        }
         echo \Template::instance()->render('feature.html');
     }
 }
