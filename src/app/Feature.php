@@ -69,7 +69,7 @@ class Feature
                 break;
             default:
                 if (count($album) == $size) {
-                    $f3->set('more', 'https://gallery.onlymaker.com/tag/' . $feature . '/' . ($pageNo + 1));
+                    $f3->set('more', 'https://gallery.onlymaker.com/tag/' . $feature . '/' . (++$pageNo));
                 }
         }
         echo \Template::instance()->render('feature.html');
