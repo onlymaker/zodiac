@@ -81,15 +81,15 @@
     </repeat>
     <div class="placeholder">
         <check if="{{@more && @pageNo==1}}">
-            <div class="text-link" onclick="window.open('{{@more}}')">More >>></div>
+            <div class="text-link" onclick="if(document.getElementById('gallery-bottom')){window.open('https://gallery.onlymaker.com/tag/{{@tag}}/1');}else{location.href='https://gallery.onlymaker.com/tag/{{@tag}}/2';}">More >>></div>
         </check>
     </div>
 </div>
 <check if="{{@more && @pageNo>1}}">
-    <div class="btn btn-block" onclick="location.href='{{@more}}'">More</div>
+    <div class="btn btn-block" onclick="location.href='https://gallery.onlymaker.com/tag/{{@tag}}/{{@pageNo+1}}'">Next</div>
 </check>
-<check if="{{!@more && @pageNo>1}}">
-    <div class="btn btn-block" onclick="location.href='https://gallery.onlymaker.com'">All Styles</div>
+<check if="{{!@more}}">
+    <div class="btn btn-block" onclick="if(!document.getElementById('gallery-bottom')){location.href='https://gallery.onlymaker.com';}">All Styles</div>
 </check>
 </body>
 </html>
