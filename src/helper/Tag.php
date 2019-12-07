@@ -22,8 +22,10 @@ class Tag
     {
         if ($request == self::MEN) {
             return in_array(self::MEN, $collection);
-        } else {
+        } else if ($request == self::LEGACY){
             return !in_array(self::MEN, $collection) && in_array($request, $collection);
+        } else {
+            return in_array($request, $collection);
         }
     }
 }
