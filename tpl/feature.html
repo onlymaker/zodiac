@@ -88,7 +88,7 @@
 <check if="{{@more && @pageNo>1}}">
     <div class="btn btn-block" onclick="location.href='https://gallery.onlymaker.com/tag/{{@tag}}/{{@pageNo+1}}'">Next</div>
 </check>
-<check if="{{!@more}}">
+<check if="{{!@more && @pageNo>1}}">
     <div class="btn btn-block" onclick="if(!document.getElementById('gallery-bottom')){location.href='https://gallery.onlymaker.com';}">All Styles</div>
 </check>
 </body>
