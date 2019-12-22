@@ -38,6 +38,8 @@ class Feature
         $offset = ($pageNo - 1) * $size;
         $feature = $params['feature'];
         $tag = new Tag();
+        $detect = new \Mobile_Detect();
+        $mobile = $detect->isMobile();
         $gallery = new JigMapper('gallery');
         $gallery->load(null, Sort::DEFAULT);
         while ($i < ($size + $offset) && !$gallery->dry()) {
@@ -45,6 +47,9 @@ class Feature
             if ($tag->match($feature, $tags)) {
                 $i++;
                 if ($i > $offset) {
+                    if ($mobile) {
+                        $gallery['image'] = str_replace('_360x.', '_600x.', $gallery['image']);
+                    }
                     $fields = $gallery->cast();
                     $fields['bias'] = $fields['width'] / $fields['height'] * $height;
                     $fields['grow'] = $fields['bias'];
