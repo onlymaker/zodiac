@@ -4,6 +4,7 @@ namespace admin;
 
 use db\JigMapper;
 use helper\Sort;
+use helper\Tag;
 
 class Index
 {
@@ -11,21 +12,38 @@ class Index
 
     function get(\Base $f3, array $params)
     {
+        $results = [];
         $pageNo = $params['pageNo'] ?? 1;
-        $pageSize = 20;
+        $pageSize = $f3->get('ALBUM_SIZE');
         $gallery = new JigMapper('gallery');
-        $data = $gallery->paginate(--$pageNo, $pageSize, null, Sort::DEFAULT);
-        if ($pageNo == $data['pos']) {
-            $subset = [];
-            foreach ($data['subset'] as $item) {
-                $subset[] = $item->cast();
+        $count = ceil($gallery->count() / $pageSize);
+        $feature = $f3->get('GET.tag') ?? '';
+        if ($feature) {
+            $i = 0;
+            $tag = new Tag();
+            $offset = ($pageNo - 1) * $pageSize;
+            $gallery->load(null, Sort::DEFAULT);
+            while ($i < ($pageSize + $offset) && !$gallery->dry()) {
+                $tags = explode(',', $gallery['featured'] ?? '');
+                if ($tag->match($feature, $tags)) {
+                    $i++;
+                    if ($i > $offset) {
+                        $results[] = $gallery->cast();
+                    }
+                }
+                $gallery->next();
             }
         } else {
-            $subset = [];
+            $data = $gallery->paginate($pageNo - 1, $pageSize, null, Sort::DEFAULT);
+            foreach ($data['subset'] as $item) {
+                $results[] = $item->cast();
+            }
+            $count = $data['count'];
         }
-        $f3->set('gallery', $subset);
-        $f3->set('pageNo', ++$data['pos']);
-        $f3->set('pageCount', $data['count']);
+        $f3->set('gallery', $results);
+        $f3->set('tag', $feature);
+        $f3->set('pageNo', $pageNo);
+        $f3->set('pageCount', $count);
         echo \Template::instance()->render('admin/index.html');
     }
 

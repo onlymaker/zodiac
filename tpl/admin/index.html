@@ -71,7 +71,7 @@
             e.addEventListener("click", function () {
                 let pageNo = e.querySelector("a").getAttribute("data-page");
                 if (pageNo) {
-                    location.href = "{{@BASE}}/admin/Index/" + pageNo;
+                    location.href = "{{@BASE}}/admin/Index/" + pageNo + "?tag={{@tag}}";
                 }
             });
         });
