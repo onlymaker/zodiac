@@ -33,10 +33,10 @@ class Feature
         $album = [];
         $i = 0;
         $height = 300;
-        $size = $f3->get('ALBUM_SIZE');
+        $feature = $params['feature'];
+        $size = ($feature === Tag::WALL) ? 100 : $f3->get('ALBUM_SIZE');
         $pageNo = $f3->get('PARAMS.pageNo') ?? 1;
         $offset = ($pageNo - 1) * $size;
-        $feature = $params['feature'];
         $tag = new Tag();
         $detect = new \Mobile_Detect();
         $mobile = $detect->isMobile();

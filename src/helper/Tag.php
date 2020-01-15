@@ -11,6 +11,7 @@ class Tag
     const SANDALS = 'sandals';
     const BEST = 'best';
     const CHRISTMAS = 'christmas';
+    const WALL = 'wall';
 
     function all()
     {
