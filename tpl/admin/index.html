@@ -84,7 +84,7 @@
         });
         document.querySelector(".fa-plus").parentNode.addEventListener("click", function () {
             setCookie("pageNo", "{{@pageNo}}");
-            window.open("{{@BASE}}/admin/Create");
+            location.href = "{{@BASE}}/admin/Create";
         });
         document.querySelector(".fa-image").parentNode.addEventListener("click", function () {
             window.open("{{@BASE}}/");
