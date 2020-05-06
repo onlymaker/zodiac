@@ -44,7 +44,7 @@ class Feature
         $gallery->load(null, Sort::DEFAULT);
         while ($i < ($size + $offset) && !$gallery->dry()) {
             $tags = explode(',', $gallery['featured'] ?? '');
-            if ($tag->match($feature, $tags)) {
+            if (in_array($feature, $tags)) {
                 $i++;
                 if ($i > $offset) {
                     if ($mobile) {
